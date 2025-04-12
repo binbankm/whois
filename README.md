@@ -1,143 +1,106 @@
-## 项目描述
+# WHOIS 查询代理服务
 
-这是一个简单的 WHOIS 代理服务器,使用 Node.js 和 Express 框架构建。它提供了一个 API 端点来查询域名的 WHOIS 信息,并包含以下特性:
+一个简单的WHOIS查询API服务，支持缓存和速率限制功能。
 
-- 使用 node-cache 实现数据缓存
-- 使用 express-rate-limit 实现请求速率限制
-- 提取并返回关键 WHOIS 信息（创建日期、过期日期、注册商）
+## 功能特性
 
-## 前置要求
+- 域名WHOIS信息查询
+- 自动缓存查询结果（1小时）
+- 请求速率限制（每IP每15分钟最多100次请求）
+- 提取关键WHOIS信息（创建日期、过期日期、注册商）
+- 支持Vercel部署
 
-- Node.js (建议版本 12.x 或更高)
-- npm (通常随Node.js一起安装)
+## 本地开发
 
-## 安装
+### 环境要求
 
-1. 安装 npm (如果尚未安装):
+- Node.js >= 14.x
+- npm 或 yarn
 
-以下是在不同操作系统上安装Node.js (包含npm) 的命令:
+### 安装步骤
 
-对于 Ubuntu/Debian 系统:
-
+1. 克隆项目到本地：
 ```bash
-# 更新包列表
-sudo apt update
-
-# 安装Node.js和npm
-sudo apt install nodejs npm
-
-# 验证安装
-node --version
-npm --version
+git clone <your-repo-url>
+cd whois-proxy
 ```
 
-对于 CentOS/Fedora 系统:
-
+2. 安装依赖：
 ```bash
-# 安装Node.js和npm
-sudo dnf install nodejs npm
-
-# 或者如果使用较旧的CentOS版本:
-# sudo yum install nodejs npm
-
-# 验证安装
-node --version
-npm --version
+npm install
+# 或
+yarn install
 ```
 
-对于 macOS (使用Homebrew):
-
+3. 启动服务：
 ```bash
-# 安装Homebrew (如果尚未安装)
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# 安装Node.js (会自动包含npm)
-brew install node
-
-# 验证安装
-node --version
-npm --version
+node whois-proxy.js
 ```
 
-对于 Windows:
+服务将在 http://localhost:3000 启动
 
-Windows用户通常直接从Node.js官网下载安装程序。但如果您使用包管理器如Chocolatey,可以使用以下命令:
+## API 使用说明
 
+### 获取API信息
+```
+GET /
+```
+
+### 查询域名WHOIS信息
+```
+GET /whois/:domain
+```
+示例：`/whois/example.com`
+
+## Vercel部署步骤
+
+1. 安装Vercel CLI：
 ```bash
-# 使用Chocolatey安装
-choco install nodejs
-
-# 验证安装
-node --version
-npm --version
+npm install -g vercel
 ```
 
-2. 下载并设置 whois-proxy.js:
-   ```
-   mkdir -p /root/whois && curl -o /root/whois/whois-proxy.js https://raw.githubusercontent.com/ypq123456789/whois-proxy.js/main/whois-proxy.js && cd /root/whois
-   ```
-   
-3. 安装依赖:
-   ```
-   npm install express whois node-cache express-rate-limit
-   ```
-
-这将安装以下包:
-- express: Web 应用框架
-- whois: WHOIS 查询功能
-- node-cache: 用于实现缓存
-- express-rate-limit: 用于实现速率限制
-
-
-## 使用 PM2 运行服务器
-
-1. 全局安装 PM2:
-   ```
-   npm install -g pm2
-   ```
-
-2. 使用 PM2 启动服务器:
-   ```
-   pm2 start whois-proxy.js --name "whois-proxy"
-   ```
-
-3. 查看运行状态:
-   ```
-   pm2 status
-   ```
-
-4. 查看日志:
-   ```
-   pm2 logs whois-proxy
-   ```
-
-5. 停止服务器:
-   ```
-   pm2 stop whois-proxy
-   ```
-
-6. 重启服务器:
-   ```
-   pm2 restart whois-proxy
-   ```
-
-## API 使用
-
-发送GET请求到 `/whois/:domain` 端点,其中 `:domain` 是您想查询的域名。
-
-例如:
+2. 登录Vercel：
+```bash
+vercel login
 ```
-http://x.x.x.x/whois/example.com
+
+3. 部署项目：
+```bash
+vercel
 ```
-其中x.x.x.x是你vps的ip。
 
-你也可以直接在浏览器中输入这一地址，返回结果就是whois查询结果。
-![image](https://github.com/ypq123456789/whois-proxy.js/assets/114487221/762506fd-35ba-4099-aa18-d1d8b5fbbffd)
+4. 生产环境部署：
+```bash
+vercel --prod
+```
 
-如果有需要，你也可以绑定自己的域名，并且套上CF的CDN，让自己的服务更加安全。
+## 项目结构
+
+```
+whois/
+  ├── whois-proxy.js    # 主服务文件
+  ├── package.json      # 项目依赖配置
+  ├── vercel.json       # Vercel部署配置
+  └── README.md         # 项目文档
+```
+
+## 环境变量
+
+目前项目不需要配置环境变量。
 
 ## 注意事项
 
-- 服务器默认在80端口运行。如需更改,请修改代码中的 `port` 变量。
-- 速率限制设置为每个IP每15分钟100个请求。
-- WHOIS数据默认缓存1小时。
+- API有速率限制，每个IP每15分钟最多100次请求
+- WHOIS查询结果会缓存1小时
+- 部分域名的WHOIS信息可能无法完全解析
+
+## 技术栈
+
+- Express.js - Web框架
+- node-whois - WHOIS查询
+- express-rate-limit - 速率限制
+- node-cache - 数据缓存
+
+## 许可证
+
+MIT
