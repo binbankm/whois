@@ -74,6 +74,5 @@ function extractRegistrar(whoisData) {
   return match ? match[1].trim() : 'Unknown';
 }
 
-app.listen(port, () => {
-  console.log(`WHOIS proxy server listening at http://localhost:${port}`);
-});
+// 删除 app.listen 部分，改为导出 app
+module.exports = app;

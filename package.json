@@ -1,13 +1,14 @@
 {
-  "name": "whois-api",
+  "name": "whois-proxy",
   "version": "1.0.0",
-  "description": "WHOIS lookup API for Vercel",
-  "main": "api/whois.js",
+  "main": "whois-proxy.js",
   "dependencies": {
+    "express": "^4.17.1",
     "whois": "^2.13.9",
+    "express-rate-limit": "^5.2.6",
     "node-cache": "^5.1.2"
   },
   "engines": {
-    "node": ">=14.x"
+    "node": "14.x"
   }
 }
