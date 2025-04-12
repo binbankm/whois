@@ -1,0 +1,13 @@
+{
+  "name": "whois-api",
+  "version": "1.0.0",
+  "description": "WHOIS lookup API for Vercel",
+  "main": "api/whois.js",
+  "dependencies": {
+    "whois": "^2.13.9",
+    "node-cache": "^5.1.2"
+  },
+  "engines": {
+    "node": ">=14.x"
+  }
+}
