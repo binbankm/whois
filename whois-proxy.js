@@ -3,7 +3,7 @@ const whois = require('whois');
 const rateLimit = require('express-rate-limit');
 const NodeCache = require('node-cache');
 const app = express();
-const port = 80;
+
 
 // 创建缓存实例,默认缓存时间为1小时
 const cache = new NodeCache({ stdTTL: 3600 });
@@ -16,6 +16,21 @@ const limiter = rateLimit({
 
 // 应用速率限制中间件
 app.use(limiter);
+
+// 添加根路径说明
+app.get('/', (req, res) => {
+  res.json({
+    name: 'WHOIS API Service',
+    version: '1.0.0',
+    endpoints: {
+      '/': '获取API说明信息',
+      '/whois/:domain': '获取指定域名的WHOIS信息'
+    },
+    usage: {
+      example: '/whois/example.com'
+    }
+  });
+});
 
 app.get('/whois/:domain', (req, res) => {
   const domain = req.params.domain;
