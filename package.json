@@ -1,6 +1,7 @@
 {
   "name": "whois-proxy",
   "version": "1.0.0",
+  "description": "WHOIS lookup proxy service",
   "main": "whois-proxy.js",
   "dependencies": {
     "express": "^4.17.1",
@@ -9,6 +10,6 @@
     "node-cache": "^5.1.2"
   },
   "engines": {
-    "node": "14.x"
+    "node": ">=14.x"
   }
 }

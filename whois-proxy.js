@@ -74,5 +74,4 @@ function extractRegistrar(whoisData) {
   return match ? match[1].trim() : 'Unknown';
 }
 
-// 删除 app.listen 部分，改为导出 app
 module.exports = app;
