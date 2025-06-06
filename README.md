@@ -69,5 +69,5 @@ vercel --prod
 - node-cache - 数据缓存
 
 ## 📝 许可证
-
+[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
 MIT
